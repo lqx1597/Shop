@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+.foot{
+	float:none;
+	height:200px;
+	margin-top: 20px;
+}
+.sodown{
+	margin-top: 5px;
+}
+.sodown a,.sodown span{
+	font-size: 13px;
+	color: gray;
+	text-decoration: none;
+	border-right: 1px solid gray;
+	margin-left: 10px;
+	padding-right: 10px;
+	float: none;	
+}
+.sodown a:HOVER {
+	background-color: rgb(255, 103, 0);
+	color: white;
+}

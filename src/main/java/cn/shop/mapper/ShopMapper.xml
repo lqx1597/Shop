@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.shop.mapper.ShopMapper">
+	<resultMap id="BaseResultMap" type="cn.shop.po.Shop">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="product_name" property="product_name" jdbcType="VARCHAR" />
+		<result column="buy_number" property="buy_number" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="INTEGER" />
+		<result column="total_money" property="total_money" jdbcType="INTEGER" />
+		<result column="customer_id" property="customer_id" jdbcType="INTEGER" />
+		<result column="address_id" property="address_id" jdbcType="INTEGER" />
+		<result column="product_id" property="product_id" jdbcType="INTEGER" />
+		<result column="product_img" property="product_img" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, product_name, buy_number, price, total_money, customer_id,
+		address_id, product_id,
+		product_img
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="cn.shop.po.ShopExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from shop
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from shop
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from shop
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="cn.shop.po.ShopExample">
+		delete from shop
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="cn.shop.po.Shop">
+		insert into shop (id, product_name, buy_number,
+		price, total_money, customer_id,
+		address_id, product_id, product_img
+		)
+		values (#{id,jdbcType=INTEGER}, #{product_name,jdbcType=VARCHAR},
+		#{buy_number,jdbcType=INTEGER},
+		#{price,jdbcType=INTEGER}, #{total_money,jdbcType=INTEGER}, #{customer_id,jdbcType=INTEGER},
+		#{address_id,jdbcType=INTEGER}, #{product_id,jdbcType=INTEGER},
+		#{product_img,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="cn.shop.po.Shop">
+		insert into shop
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="product_name != null">
+				product_name,
+			</if>
+			<if test="buy_number != null">
+				buy_number,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="total_money != null">
+				total_money,
+			</if>
+			<if test="customer_id != null">
+				customer_id,
+			</if>
+			<if test="address_id != null">
+				address_id,
+			</if>
+			<if test="product_id != null">
+				product_id,
+			</if>
+			<if test="product_img != null">
+				product_img,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="product_name != null">
+				#{product_name,jdbcType=VARCHAR},
+			</if>
+			<if test="buy_number != null">
+				#{buy_number,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=INTEGER},
+			</if>
+			<if test="total_money != null">
+				#{total_money,jdbcType=INTEGER},
+			</if>
+			<if test="customer_id != null">
+				#{customer_id,jdbcType=INTEGER},
+			</if>
+			<if test="address_id != null">
+				#{address_id,jdbcType=INTEGER},
+			</if>
+			<if test="product_id != null">
+				#{product_id,jdbcType=INTEGER},
+			</if>
+			<if test="product_img != null">
+				#{product_img,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="cn.shop.po.ShopExample"
+		resultType="java.lang.Integer">
+		select count(*) from shop
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update shop
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.product_name != null">
+				product_name = #{record.product_name,jdbcType=VARCHAR},
+			</if>
+			<if test="record.buy_number != null">
+				buy_number = #{record.buy_number,jdbcType=INTEGER},
+			</if>
+			<if test="record.price != null">
+				price = #{record.price,jdbcType=INTEGER},
+			</if>
+			<if test="record.total_money != null">
+				total_money = #{record.total_money,jdbcType=INTEGER},
+			</if>
+			<if test="record.customer_id != null">
+				customer_id = #{record.customer_id,jdbcType=INTEGER},
+			</if>
+			<if test="record.address_id != null">
+				address_id = #{record.address_id,jdbcType=INTEGER},
+			</if>
+			<if test="record.product_id != null">
+				product_id = #{record.product_id,jdbcType=INTEGER},
+			</if>
+			<if test="record.product_img != null">
+				product_img = #{record.product_img,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update shop
+		set id = #{record.id,jdbcType=INTEGER},
+		product_name = #{record.product_name,jdbcType=VARCHAR},
+		buy_number = #{record.buy_number,jdbcType=INTEGER},
+		price = #{record.price,jdbcType=INTEGER},
+		total_money = #{record.total_money,jdbcType=INTEGER},
+		customer_id = #{record.customer_id,jdbcType=INTEGER},
+		address_id = #{record.address_id,jdbcType=INTEGER},
+		product_id = #{record.product_id,jdbcType=INTEGER},
+		product_img = #{record.product_img,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.shop.po.Shop">
+		update shop
+		<set>
+			<if test="product_name != null">
+				product_name = #{product_name,jdbcType=VARCHAR},
+			</if>
+			<if test="buy_number != null">
+				buy_number = #{buy_number,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=INTEGER},
+			</if>
+			<if test="total_money != null">
+				total_money = #{total_money,jdbcType=INTEGER},
+			</if>
+			<if test="customer_id != null">
+				customer_id = #{customer_id,jdbcType=INTEGER},
+			</if>
+			<if test="address_id != null">
+				address_id = #{address_id,jdbcType=INTEGER},
+			</if>
+			<if test="product_id != null">
+				product_id = #{product_id,jdbcType=INTEGER},
+			</if>
+			<if test="product_img != null">
+				product_img = #{product_img,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.shop.po.Shop">
+		update shop
+		set product_name = #{product_name,jdbcType=VARCHAR},
+		buy_number = #{buy_number,jdbcType=INTEGER},
+		price = #{price,jdbcType=INTEGER},
+		total_money = #{total_money,jdbcType=INTEGER},
+		customer_id = #{customer_id,jdbcType=INTEGER},
+		address_id = #{address_id,jdbcType=INTEGER},
+		product_id = #{product_id,jdbcType=INTEGER},
+		product_img = #{product_img,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="findByCustomerId" resultMap="BaseResultMap"
+
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from shop
+		where customer_id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="findAllMoney" resultType="java.lang.Integer"
+
+		parameterType="java.lang.Integer">
+		select IFNULL(sum(total_money),0) from shop where
+
+		customer_id=#{customer_id}
+
+	</select>
+	<select id="findCount" resultType="java.lang.Integer"
+
+		parameterType="java.lang.Integer">
+		select count(*) from shop where customer_id = #{id}
+	</select>
+
+</mapper>

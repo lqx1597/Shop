@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.shop.mapper.CustomerDeveMapper">
+
+	<!-- 定义商品查询的sql片段，就是商品查询条件 -->
+	<!-- <sql id="query_items_where"> 使用动态sql，通过if判断，满足条件进行sql拼接 商品查询条件通过ItemsQueryVo包装对象 
+		中itemsCustom属性传递 <if test="itemsCustom!=null"> <if test="itemsCustom.name!=null 
+		and itemsCustom.name!=''"> items.name LIKE '%${itemsCustom.name}%' </if> 
+		</if> </sql> -->
+
+	<!-- 商品列表查询 -->
+	<!-- parameterType传入包装对象(包装了查询条件) resultType建议使用扩展对象 -->
+	<!-- <select id="findItemsList" parameterType="cn.itcast.ssm.po.ItemsQueryVo" 
+		resultType="cn.itcast.ssm.po.ItemsCustom"> SELECT items.* FROM items <where> 
+		<include refid="query_items_where"></include> </where> </select> -->
+
+	<!-- 进行登录操作 -->
+	<select id="checkLogin" parameterType="cn.shop.po.CustomerDeve"
+		resultType="cn.shop.po.CustomerDeve">
+		select * from customer where binary user_name=#{user_name} and binary password=#{password}
+	</select>
+	<select id="findByName" parameterType="cn.shop.po.CustomerDeve"
+	resultType="cn.shop.po.CustomerDeve">
+	select * from customer where user_name=#{user_name}
+	</select>
+	<select id="insert" parameterType="cn.shop.po.CustomerDeve">
+	insert into customer(user_name,password,mobile) values(#{user_name},#{password},#{mobile})
+	</select>
+	<update id="update" parameterType="cn.shop.po.CustomerDeve">
+	update customer set real_name=#{real_name},password=#{password},mobile=#{mobile},email=#{email} 
+	where user_name=#{user_name}
+	</update>
+	<select id="findMobile" parameterType="String"
+	resultType="cn.shop.po.CustomerDeve">
+	select * from customer where mobile=#{mobile}
+	<if test="id!=null">
+	 and id!=#{id}
+	</if>
+	
+	</select>
+	<select id="findEmail" parameterType="String"
+	resultType="cn.shop.po.CustomerDeve">
+	select * from customer where email=#{email}
+	<if test="id!=null">
+	 and id!=#{id}
+	</if>
+	</select>
+
+</mapper>
