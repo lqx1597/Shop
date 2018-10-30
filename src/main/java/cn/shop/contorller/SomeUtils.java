@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -106,5 +107,17 @@ public class SomeUtils {
 		req.getSession().setAttribute("endProduct", endProduct);
 		req.getSession().setAttribute("pageNo", pageNo);
 
+	}
+	
+	
+	//弹出对话框与跳转页面功能
+	public static void alertMes(HttpServletRequest req,HttpServletResponse resp,String mes,String page) throws IOException {
+		req.setCharacterEncoding("utf-8");
+		resp.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = resp.getWriter();
+		writer.write("<script>alert('"+mes+"');</script>");
+		writer.write("<script>window.location.href='"+page+"';</script>");
+		writer.close();
+		writer.flush();
 	}
 }

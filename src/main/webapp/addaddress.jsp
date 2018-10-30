@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="author" content="order by dede58.com" />
-<title>小米商城-个人中心</title>
+<title>天亦商城-个人中心</title>
 <link rel="stylesheet" type="text/css" href="./css/style.css">
 </head>
 <body>

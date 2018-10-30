@@ -61,11 +61,7 @@ public class AddressController {
 		resp.setContentType("text/html;charset=utf-8");
 		int addressId = Integer.parseInt(req.getParameter("addressId"));
 		customerAddressService.deleteAddress(addressId);
-		PrintWriter writer = resp.getWriter();
-		writer.write("<script>alert('删除成功！');</script>");
-		writer.write("<script>window.location.href='myaddress.action';</script>");
-		writer.close();
-		writer.flush();
+		SomeUtils.alertMes(req, resp, "删除成功！", "myaddress.action");
 		
 	}
 	//修改收货地址之前

@@ -56,31 +56,16 @@ public class CustomerController {
 				
 				//弹出窗口
 				req.getSession().setAttribute("loginMsg", "登录成功！");
-				System.out.println("条");
 				//重定向到首页
 				return "forward:productQuery.action";
 				
-				/*PrintWriter writer = resp.getWriter();
-				writer.write("<script>alert('登录成功！');</script>");
-				writer.write("<script>window.location.href='index.jsp';</script>");
-				writer.close();
-				writer.flush();*/
-
 			} else {
-				/*PrintWriter writer = resp.getWriter();
-				writer.write("<script>alert('用户名或密码错误！');</script>");
-				writer.write("<script>window.location.href='login.jsp'</script>");
-				writer.close();
-				writer.flush();*/
+				
 				req.getSession().setAttribute("loginMsg", "用户名或密码错误！");
 				return "login";
 			}
 		} else {
-			/*PrintWriter writer = resp.getWriter();
-			writer.write("<script>alert('验证码有误！');</script>");
-			writer.write("<script>window.location.href='login.jsp';</script>");
-			writer.close();
-			writer.flush();*/
+			
 			req.getSession().setAttribute("loginMsg", "验证码有误！");
 			return "login";
 		}
@@ -103,6 +88,9 @@ public class CustomerController {
 		resp.setContentType("text/html; charset=utf-8");
 		// 创建对象
 		CustomerDeve customerDeve = new CustomerDeve();
+		
+		//将获取到的用户信息添加到session中保存以便出错时返回数据免得用户再次输入，密码安全性较高除外
+		req.getSession().setAttribute("regCus", customer);
 		// 判断验证码
 		// 获取系统生成的验证码
 		String sysCode = (String) req.getSession().getAttribute("sysCode");
@@ -112,44 +100,22 @@ public class CustomerController {
 			CustomerDeve sameCus = customerService.findByName(customer.getUser_name());
 			// 判断数据库中是否存在相同的电话号码
 			CustomerDeve sameMobil = customerService.findMobile(customer.getMobile(), null);
+			
 			if (sameCus != null) {// 存在此人
-				/*req.getSession().setAttribute("resMsg", "该用户名已经注册！");*/
-				/*return "register";*/
-				PrintWriter writer = resp.getWriter();
-				writer.write("<script>alert('该用户名已经被注册！');</script>");
-				writer.write("<script>window.history.back();</script>");
-				writer.close();
-				writer.flush();
+				//弹出对话框信息及跳转页面
+				SomeUtils.alertMes(req, resp, "该用户已经被注册!", "register.jsp");
 			} else if (sameMobil != null) { // 不存在
-				/*req.getSession().setAttribute("resMsg", "该手机号已经注册！");*/
-				//return "register";
-				PrintWriter writer = resp.getWriter();
-				writer.write("<script>alert('该手机号已经被注册！');</script>");
-				writer.write("<script>window.history.back();</script>");
-				writer.close();
-				writer.flush();
+				SomeUtils.alertMes(req, resp, "该手机号已经被注册!", "register.jsp");
 			} else {
 				customerDeve.setUser_name(customer.getUser_name());
 				customerDeve.setPassword(customer.getPassword());
 				customerDeve.setMobile(customer.getMobile());
 				customerService.insert(customerDeve);
-				/*req.getSession().setAttribute("loginMsg", "注册成功！");*/
-				//return "login";
-				PrintWriter writer = resp.getWriter();
-				writer.write("<script>alert('注册成功！');</script>");
-				writer.write("<script>window.location.href='login.jsp';</script>");
-				writer.close();
-				writer.flush();
+				SomeUtils.alertMes(req, resp, "注册成功！", "login.jsp");
 			}
 
 		} else {// 验证码不相等
-			/*req.getSession().setAttribute("resMsg", "验证码有误！");*/
-			/*return "register";*/
-			PrintWriter writer = resp.getWriter();
-			writer.write("<script>alert('验证码有误！');</script>");
-			writer.write("<script>window.location.href='register.jsp';</script>");
-			writer.close();
-			writer.flush();
+			SomeUtils.alertMes(req, resp, "验证码有误!", "register.jsp");
 		}
 
 	}
@@ -164,17 +130,9 @@ public class CustomerController {
 		CustomerDeve sameMobil = customerService.findMobile(customer.getMobile(), old.getId());
 		CustomerDeve sameEmail = customerService.findEmail(customer.getEmail(),old.getId());
 		if(sameMobil!=null) {
-			PrintWriter writer = resp.getWriter();
-			writer.write("<script>alert('该手机号已经被注册！');</script>");
-			writer.write("<script>window.history.back();</script>");
-			writer.close();
-			writer.flush();
+			SomeUtils.alertMes(req, resp, "该手机号已经被注册！", "edit_info.jsp");
 		}else if(sameEmail!=null) {
-			PrintWriter writer = resp.getWriter();
-			writer.write("<script>alert('该邮箱已经被注册！');</script>");
-			writer.write("<script>window.history.back();</script>");
-			writer.close();
-			writer.flush();
+			SomeUtils.alertMes(req, resp, "该邮箱已经被注册！", "edit_info.jsp");
 		}else {
 			// 设置修改信息
 			CustomerDeve customerDeve = new CustomerDeve();
@@ -189,11 +147,7 @@ public class CustomerController {
 			CustomerDeve customerDeveInfo = customerService.findByName(customer.getUser_name());
 			System.out.println(customerDeveInfo);
 			req.getSession().setAttribute("customerDeveInfo", customerDeveInfo);
-			PrintWriter writer = resp.getWriter();
-			writer.write("<script>alert('修改成功！');</script>");
-			writer.write("<script>window.location.href='self_info.jsp';</script>");
-			writer.close();
-			writer.flush();
+			SomeUtils.alertMes(req, resp, "修改成功！", "self_info.jsp");
 		}
 		
 		
@@ -250,11 +204,9 @@ public class CustomerController {
 		
 		CustomerDeve customer = customerService.findEmail(email,id);
 		if (customer!=null) {
-			System.out.println("a");
 			//邮箱存在，邮箱不可用
 		} else {
 			//邮箱不存在，邮箱可用
-			System.out.println("b");
 			resp.getWriter().print(true);
 		}
 

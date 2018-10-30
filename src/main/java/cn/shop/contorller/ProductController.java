@@ -46,7 +46,7 @@ public class ProductController {
 
 	}
 
-	// 添加图片
+	// 添加商品
 	@RequestMapping("add")
 	private void add(
 			HttpServletRequest req,
@@ -78,7 +78,7 @@ public class ProductController {
 				&& originalFilename.length() > 0) {
 
 			// 存储图片的物理路径
-			String pic_path = "F:\\image\\";
+			String pic_path = "C:\\Users\\Administrator\\eclipse-workspace\\Shop\\src\\main\\webapp\\image";
 
 			// 新的图片名称
 			String newFileName = UUID.randomUUID()
